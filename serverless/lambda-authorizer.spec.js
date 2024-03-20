@@ -11,6 +11,8 @@ describe('Lambda Authorizer', () => {
         callback(null, { AuthenticationResult: { IdToken: 'mockedToken' } });
       }
     );
+    process.env.CLIENT_ID = 'testClientId';
+    process.env.CLIENT_SECRET = 'testClienteSecret';
   });
 
   afterAll(() => {
@@ -19,8 +21,7 @@ describe('Lambda Authorizer', () => {
 
   it('should return token when authentication is successful', async () => {
     const event = {
-      body: JSON.stringify({ username: 'testUser', senha: 'testPassword' }),
-      headers: { client_id: 'testClientId', client_secret: 'testClientSecret' },
+      body: JSON.stringify({ username: 'testUser', password: 'testPassword' }),
     };
     const response = await handler(event);
 
@@ -33,7 +34,7 @@ describe('Lambda Authorizer', () => {
     const response = await handler(event);
 
     expect(response.statusCode).toBe(400);
-    expect(response.body).toContain('Requisição inválida');
+    expect(response.body).toContain('Parâmetros mandatórios não encontrados');
   });
 
   it('should return 500 for error during authentication', async () => {
@@ -47,12 +48,30 @@ describe('Lambda Authorizer', () => {
     );
 
     const event = {
-      body: JSON.stringify({ username: 'testUser', senha: 'testPassword' }),
-      headers: { client_id: 'testClientId', client_secret: 'testClientSecret' },
+      body: JSON.stringify({ username: 'testUser', password: 'testPassword' }),
     };
     const response = await handler(event);
 
     expect(response.statusCode).toBe(500);
-    expect(response.body).toContain('Erro na autenticação');
+    expect(response.body).toContain('Authentication failed');
+  });
+
+  it('should return 500 for error during authentication without custom message', async () => {
+    AWSMock.remock(
+      'CognitoIdentityServiceProvider',
+      'initiateAuth',
+      (params, callback) => {
+        // Simulate an error during authentication
+        callback(new Error());
+      }
+    );
+
+    const event = {
+      body: JSON.stringify({ username: 'testUser', password: 'testPassword' }),
+    };
+    const response = await handler(event);
+
+    expect(response.statusCode).toBe(500);
+    expect(response.body).toContain('Não foi possível autenticar o usuário');
   });
 });
