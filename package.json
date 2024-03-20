@@ -4,7 +4,8 @@
   "description": "//TODO",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "test:cov": "jest --coverage --runInBand"
   },
   "keywords": [],
   "author": "",

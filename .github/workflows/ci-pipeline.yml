@@ -1,0 +1,22 @@
+name: hackathon-company-sa-ci
+run-name: Hackathon Company SA Pipeline
+
+on: [push]
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+
+      - name: Run Unit Tests
+        run: npm install && npm run test
+  coverage-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+      - name: Running coverage tests
+        run: npm install && npm run test:cov
