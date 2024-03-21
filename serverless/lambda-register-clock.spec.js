@@ -1,7 +1,7 @@
 const { MongoClient } = require('mongodb');
 const { decomposeUnverifiedJwt } = require('aws-jwt-verify/jwt');
 const moment = require('moment-timezone');
-const lambdaFunction = require('./lambda-register-clock'); // Replace with the path to your Lambda function
+const lambdaFunction = require('./lambda-register-clock');
 
 jest.mock('mongodb');
 jest.mock('aws-jwt-verify/jwt');

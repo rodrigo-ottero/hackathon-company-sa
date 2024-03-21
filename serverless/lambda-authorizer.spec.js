@@ -1,4 +1,4 @@
-const { handler } = require('./lambda-authorizer'); // Replace with the path to your Lambda function file
+const { handler } = require('./lambda-authorizer');
 const AWSMock = require('aws-sdk-mock');
 
 describe('Lambda Authorizer', () => {
