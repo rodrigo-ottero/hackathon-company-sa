@@ -10,6 +10,7 @@ const collectionName =  process.env.COLLECTION_NAME
 exports.handler = async (event) => {
 
     let client
+
     try {
 
         // Extraction paylod from token
@@ -18,7 +19,7 @@ exports.handler = async (event) => {
         
         // Obtaining employee ID from token payload
         const matricula = payload['custom:matricula'];
-        const username = payload['custom:username'];
+        const username = payload['cognito:username'];
         
         // Connecting to DocumentDB        
         const mongo = new MongoClient(documentURL);
@@ -26,11 +27,11 @@ exports.handler = async (event) => {
         client = await mongo.connect(documentURL);
         const database = await client.db(databaseName);
         
-        console.log(`Querying current day clock records for this employee`)
+        console.log(`Querying current day clock records for employee ${username}`)
         const result = await database.collection(collectionName)
             .find({
                 matricula: matricula,
-                timestamp: { $regex: `^${moment(new Date().getTime()).tz(timezone).format('YYYY-MM-DD')}` },
+                timestamp: { $regex: `^${moment().tz(timezone).format('YYYY-MM-DD')}` },
             })
             .sort({ timestamp: "desc" })
             .limit(1)
@@ -46,7 +47,7 @@ exports.handler = async (event) => {
             username: username,
             matricula: matricula,
             ocorrencia: ocorrencia,
-            timestamp: moment(new Date().getTime()).tz(timezone).format('YYYY-MM-DDTHH:mm:ss')
+            timestamp: moment().tz(timezone).format('YYYY-MM-DDTHH:mm:ss')
         }
 
         console.log(`Saving clock record in DocumentDB`)

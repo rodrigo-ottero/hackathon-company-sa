@@ -13,12 +13,13 @@ exports.handler = async (event) => {
 
         // Validating input
         if (!username || !password) {
+            // Returning validation error
             return {
                 statusCode: 400,
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ message: "Parâmetros mandatórios não encontrados" })
+                body: JSON.stringify({ message: "Parâmetros de usuário e/ou senha não encontrados" })
             };
         }
 
@@ -42,7 +43,7 @@ exports.handler = async (event) => {
         const cognito = new AWS.CognitoIdentityServiceProvider({ region: process.env.AWS_REGION });
 
         // Initiating authentication
-        console.log(`Authenticating in cognito`)
+        console.log(`Authenticating user ${username} in cognito`)
         const response = await cognito.initiateAuth(params).promise();
 
         // Returning authentication token
@@ -56,6 +57,7 @@ exports.handler = async (event) => {
 
     } catch (error) {
         console.error('Error authenticating user', error);
+         // Returning authentication error
         return {
             statusCode: error?.statusCode || 500,
             headers: {
