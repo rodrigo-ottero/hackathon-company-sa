@@ -34,7 +34,9 @@ describe('Lambda Authorizer', () => {
     const response = await handler(event);
 
     expect(response.statusCode).toBe(400);
-    expect(response.body).toContain('Parâmetros mandatórios não encontrados');
+    expect(response.body).toContain(
+      'Parâmetros de usuário e/ou senha não encontrados'
+    );
   });
 
   it('should return 500 for error during authentication', async () => {
