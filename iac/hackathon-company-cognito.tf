@@ -46,7 +46,8 @@ resource "aws_cognito_user" "hackathon-func-user" {
   enabled = true
   attributes = {
     name  = "Maria da Silva"
-    email = "hehajo1285@storesr.com"
+    email = "sagikoh315@otemdi.com"
+    matricula = "11111"
     roles= "func"
     email_verified = true
   }
@@ -61,7 +62,8 @@ resource "aws_cognito_user" "hackathon-admin-user" {
   enabled = true
   attributes = {
     name  = "Jose da Silva"
-    email = "hehajo1285@storesr.com"
+    email = "sagikoh315@otemdi.com"
+    matricula = "22222"
     roles= "admin"
     email_verified = true
   }

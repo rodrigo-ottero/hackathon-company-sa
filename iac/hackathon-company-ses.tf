@@ -4,7 +4,7 @@ resource "aws_sesv2_email_identity" "hackathon-company-ses-sender-email-identity
 }
 
 resource "aws_sesv2_email_identity" "hackathon-company-ses-client-email-identity" {
-  email_identity = "hehajo1285@storesr.com"
+  email_identity = "sagikoh315@otemdi.com"
   configuration_set_name = aws_sesv2_configuration_set.hackathon-company-ses-configuration-set.configuration_set_name
 }
 

@@ -166,7 +166,8 @@ const calculateAggragateHoursInSeconds = (registrosDoDia) => {
 
 const formatSecondsInHours = (totalDuracaoSegundos) => {
     const duracao = moment.duration(totalDuracaoSegundos, 'seconds');
-    const horas = duracao.hours().toString().padStart(2, '0');
+    // const horas = duracao.hours().toString().padStart(2, '0');
+    const horas = Math.floor(duracao.asHours()).toString().padStart(2, '0');
     const minutos = duracao.minutes().toString().padStart(2, '0');
     const segundos = duracao.seconds().toString().padStart(2, '0');
     return `${horas}:${minutos}:${segundos}`;
